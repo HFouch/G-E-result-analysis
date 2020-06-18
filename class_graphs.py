@@ -2,15 +2,17 @@ from matplotlib import pyplot as plt
 import pandas as pd
 
 class Graphs:
-    def __init__(self, path_to_results, file_prefix, number_of_csv_files):
+    def __init__(self, path_to_results, file_prefix, number_of_csv_files, number_of_simulations):
         self.path_to_results = path_to_results
         self.file_prefix = file_prefix
         self.number_of_csv_files = number_of_csv_files
+        self.number_of_simulations = number_of_simulations
         pass
 
  
-    def percentage_true_sol_present_graph(self, x, percentage_true_solution_present_e1, percentage_true_solution_present_e2, percentage_true_solution_present_e3 ):
+    def percentage_true_sol_present_graph(self ,percentage_true_solution_present_e1, percentage_true_solution_present_e2, percentage_true_solution_present_e3 ):
         # Percentage true solution present
+        x = list(range(4, self.number_of_csv_files+4))
         plt.figure(figsize=(10, 10))
         plt.plot(x, percentage_true_solution_present_e1, color='red', marker='o')
         plt.plot(x, percentage_true_solution_present_e2, color='blue', marker='o')
@@ -24,8 +26,9 @@ class Graphs:
         plt.close()
         
         
-    def time_genolve_took_graphs(self, x, genolve_time_e1,genolve_time_e2,genolve_time_e3 ):
+    def time_genolve_took_graphs(self, genolve_time_e1,genolve_time_e2,genolve_time_e3 ):
         # Time Genolve took
+        x = list(range(4, self.number_of_csv_files + 4))
         colors = ['red', 'blue', 'green']
         time_means_e1 = [x[0] for x in genolve_time_e1]
         time_std_e1 = [x[1] for x in genolve_time_e1]
@@ -44,8 +47,9 @@ class Graphs:
         plt.savefig(self.path_to_results + 'genolve_time.png')
         plt.close()
 
-    def ave_num_solutions_graph(self, x, number_of_solutions_e1, number_of_solutions_e2, number_of_solutions_e3):
+    def ave_num_solutions_graph(self, number_of_solutions_e1, number_of_solutions_e2, number_of_solutions_e3):
         # Number of solutions per solution set
+        x = list(range(4, self.number_of_csv_files + 4))
         colors = ['red', 'blue', 'green']
         num_sol_means_e1 = [x[0] for x in number_of_solutions_e1]
         num_sol_std_e1 = [x[1] for x in number_of_solutions_e1]
@@ -64,8 +68,9 @@ class Graphs:
         plt.savefig(self.path_to_results + 'number_of_solutions.png')
         plt.close()
     
-    def ave_num_of_operations_graphs(self,x, df_solution_lengths_e1, df_solution_lengths_e2, df_solution_lengths_e3 ):
+    def ave_num_of_operations_graphs(self, df_solution_lengths_e1, df_solution_lengths_e2, df_solution_lengths_e3 ):
         # Number of operations per solution size
+        x = list(range(1, self.number_of_simulations+1))
         for i in range(1, self.number_of_csv_files + 1):
             colors = ['red', 'blue', 'green']
             fig_name = self.path_to_results + 'ave_num_of_ops_per_solset_' + str(i) + '.png'
@@ -110,8 +115,9 @@ class Graphs:
             plt.savefig(fig_name)
             plt.close()
 
-    def ave_num_type_of_operations(self, experiment_number, x, df_num_inversions,df_num_transpositions, df_num_balanced_translocations,df_num_unbalanced_translocations,  df_num_fissions,  df_num_fusions, df_num_transpositions2):
+    def ave_num_type_of_operations(self, experiment_number, df_num_inversions,df_num_transpositions, df_num_balanced_translocations,df_num_unbalanced_translocations,  df_num_fissions,  df_num_fusions, df_num_transpositions2):
         # Number of each operation
+        x = list(range(1, self.number_of_simulations + 1))
         for i in range(1, self.number_of_csv_files + 1):
 
             if experiment_number == 1:
@@ -129,8 +135,6 @@ class Graphs:
 
             #  values
             column_name = self.file_prefix + str(experiment_number)+'_' + str(i)
-            print(column_name)
-            print(df_num_inversions.info())
             inv_mean = [x[0] for x in df_num_inversions[column_name]]
             inv_std = [x[1] for x in df_num_inversions[column_name]]
             trp_mean = [x[0] for x in df_num_transpositions[column_name]]
