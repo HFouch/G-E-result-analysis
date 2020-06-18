@@ -3,11 +3,12 @@ import numpy as np
 import statistics as stats
 from matplotlib import pyplot as plt
 
-number_of_simulations = 1000
 
 class DataExtraction:
 
-    def __init__(self):
+    def __init__(self, number_of_csv_files, number_of_simulations):
+        self.number_of_csv_files = number_of_csv_files
+        self.number_of_simulations = number_of_simulations
         pass
 
     def get_required_data(self, path_name, prefix):
@@ -35,7 +36,7 @@ class DataExtraction:
 
         percentage_true_solution_present = []
         #list containing a percentage value for how often the 'true solution' was present in the set of solutions
-        for i in range(1,6):
+        for i in range(1,self.number_of_csv_files+1):
 
             filename = path_name+prefix+'_'+str(i)+'.csv'
             column_name = prefix + '_'+str(i)
@@ -50,10 +51,9 @@ class DataExtraction:
             # Percentage time true solution was in solution set:
             num_times_true_sol_found = df['True_solution_found'].sum()
 
-            percentage_true_solution_present.append(num_times_true_sol_found/number_of_simulations*100)
+            percentage_true_solution_present.append(num_times_true_sol_found/self.number_of_simulations*100)
 
             operation_sequences = df['Operation_sequences']
-
 
             # Number of operations per solution
             solution_lenghts = []
